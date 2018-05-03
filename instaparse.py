@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+from statistics import mean
 
 logger = logging.getLogger('instagram_parsing')
 logger.setLevel(logging.DEBUG)
@@ -11,6 +12,10 @@ def get_user_id(api, username):
         return user_id
     return None
 
+def get_user_medias(api, user_id):
+    if api.get_user_feed(user_id):
+        return api.last_json["items"]
+
 def download_user(api, username=None, user_id=None):
     if username is None and user_id is None:
         logger.debug("Can't download user: no user_id or username specified")
@@ -20,7 +25,7 @@ def download_user(api, username=None, user_id=None):
         user_id = get_user_id(api, username)
 
     if user_id is None:  # can't find that user
-        return None
+        return False
 
     if not api.get_username_info(user_id):
         return False
@@ -37,6 +42,10 @@ def download_user(api, username=None, user_id=None):
         "is_private": user_info["is_private"],
         "is_business": user_info["is_business"],
     }
+
+    medias = get_user_medias(api, user_id)
+    user_info_dict["mean_likes"] = mean([m["like_count"] for m in medias])
+    user_info_dict["mean_comments"] = mean([m["comment_count"] for m in medias])
 
     conn = sqlite3.connect('phystechtv.db')
     c = conn.cursor()
