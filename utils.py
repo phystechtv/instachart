@@ -1,6 +1,11 @@
 from instabot import API
 import sqlite3
+import random
+import time
 from itertools import cycle
+
+def sleep(seconds):
+    return time.sleep(random.random() * seconds)
 
 # inits
 
@@ -23,6 +28,20 @@ def init_db():
           username TEXT PRIMARY KEY,
           password TEXT NOT NULL,
           is_main_account BOOL default FALSE
+        );
+    ''')
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS instagram_medias (
+          media_id INT PRIMARY KEY,
+          author_id INT NOT NULL,
+          author_username TEXT NOT NULL,
+          caption TEXT,
+          like_count INT,
+          comment_count INT, 
+          taken_at datetime,          
+          media_type INT, 
+          lat FLOAT, lng FLOAT,
+          last_update TIMESTAMP default CURRENT_TIMESTAMP
         );
     ''')
     conn.commit()
