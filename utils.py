@@ -19,7 +19,6 @@ def init_db():
           is_private BOOL NOT NULL, is_business BOOL,
           follower_count INT, following_count INT, media_count INT, usertags_count INT,
           mean_likes FLOAT, mean_comments FLOAT,
-          mipt_proven BOOL,
           last_update TIMESTAMP default CURRENT_TIMESTAMP
         );
     ''')
@@ -44,7 +43,19 @@ def init_db():
           last_update TIMESTAMP default CURRENT_TIMESTAMP
         );
     ''')
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS instagram_followships (
+          follower_id INT, followee_id INT, 
+          last_update TIMESTAMP default CURRENT_TIMESTAMP
+        );
+    ''')
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS instagram_mipt_users (
+          user_id INT PRIMARY KEY
+        );
+    ''')
     conn.commit()
+
 
 # instagram api and credentials
 
