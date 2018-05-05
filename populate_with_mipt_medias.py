@@ -10,4 +10,4 @@ mipt_users = extract_mipt_users()
 random.shuffle(mipt_users)
 for user_id in tqdm(mipt_users):
     if download_user_medias(next(apis), user_id=user_id):
-        sleep(30)
+        sleep(60)
