@@ -1,13 +1,13 @@
 from tqdm import tqdm
 
 from utils import *
-from instaparse import *
+from instaget import *
 
 apis = get_apis()
 
-mipt_users = get_parsed_mipt_users()
+mipt_users = extract_mipt_users()
 
 random.shuffle(mipt_users)
-for user in tqdm(mipt_users):
-    download_user_medias(next(apis), user_id=user["user_id"])
-    sleep(60)
+for user_id in tqdm(mipt_users):
+    if download_user_medias(next(apis), user_id=user_id):
+        sleep(30)
