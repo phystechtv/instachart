@@ -103,3 +103,4 @@ ENV/
 *.iml
 *.txt
 *.db
+.DS_Store
