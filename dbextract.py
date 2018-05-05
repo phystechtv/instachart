@@ -83,7 +83,7 @@ def extract_mipt_users_info():
     c = conn.cursor()
 
     c.execute('''SELECT * FROM instagram_mipt_users INNER JOIN instagram_users  
-                 ON instagram_users.user_id = instagram_mipt_users.user_id''')
+                 ON instagram_users.user_id = instagram_mipt_users.user_id WHERE is_private = 0''')
     users = c.fetchall()
     if len(users) == 0:
         return False
