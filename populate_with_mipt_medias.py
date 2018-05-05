@@ -5,9 +5,10 @@ from instaget import *
 
 apis = get_apis()
 
-mipt_users = extract_mipt_users()
+mipt_users = extract_mipt_users_info()
 
 random.shuffle(mipt_users)
-for user_id in tqdm(mipt_users):
-    if download_user_medias(next(apis), user_id=user_id):
+for user_info in tqdm(mipt_users):
+    if not get_user_medias(next(apis), user_id=user_info["user_id"]):
         sleep(60)
+    sleep(60)
