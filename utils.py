@@ -40,6 +40,7 @@ def init_db():
           taken_at datetime,          
           media_type INT, 
           lat FLOAT, lng FLOAT,
+          link TEXT,
           last_update TIMESTAMP default CURRENT_TIMESTAMP
         );
     ''')

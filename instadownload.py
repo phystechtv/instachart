@@ -87,7 +87,11 @@ def download_user_medias(api, user_id):
         "media_type": m["media_type"],
         "lat": m["lat"] if "lat" in m else None,
         "lng": m["lng"] if "lng" in m else None,
+        "link": m["carousel_media"][0]["image_versions2"]["candidates"][0]["url"] if m["media_type"] == 8 else \
+                m["image_versions2"]["candidates"][0]["url"] if m["media_type"] == 1 else None,
     } for m in medias]
+
+
 
     conn = sqlite3.connect('phystechtv.db')
     c = conn.cursor()
