@@ -108,7 +108,7 @@ def extract_scores():
 
     c.execute('''
     SELECT 
-      likes * comments * likes * comments * mipt_follower_count as score,
+      likes * comments * likes * comments * mipt_followers_part as score,
       author_username as username, caption, link
     FROM mipt_ratings
     ORDER BY score DESC 
