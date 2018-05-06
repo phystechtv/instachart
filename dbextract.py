@@ -100,3 +100,18 @@ def extract_mipt_users():
         return False
 
     return [u[0] for u in mipt_users]
+
+def extract_scores():
+    conn = sqlite3.connect('phystechtv.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+    c.execute('''
+    SELECT 
+      likes * comments * likes * comments * mipt_follower_count as score,
+      author_username as username, caption, link
+    FROM mipt_ratings
+    ORDER BY score DESC 
+    ''')
+
+    return c.fetchall()
