@@ -10,5 +10,5 @@ mipt_users = extract_mipt_users_info()
 random.shuffle(mipt_users)
 for user_info in tqdm(mipt_users):
     if not get_user_medias(next(apis), user_id=user_info["user_id"]):
-        sleep(60)
+        sleep(120)
     sleep(60)
