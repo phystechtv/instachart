@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css?family=Exo+2:700i" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram топ 10</title>
+</head>
+<body>
+    <h1 class="header">phystech.tv/insta</h1>
+    <div class="container">
+        {% for m in medias %}
+
+        <div class="row">
+            <div class="photo"><img class="img" src="{{m.link}}"></div>
+            <div class="description">
+                <div class="author"><h2><a href="https://instagram.com/{{m.username}}"> {{m.username}}</h2></a></div>
+                <div class="caption">{{m.caption}}</div>
+                <!--<div class="rating">Рейтинг: {{m.score}}</div>-->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

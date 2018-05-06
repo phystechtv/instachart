@@ -1,0 +1,59 @@
+.container {
+    outline: solid 3px red;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+body {
+    background: black;
+    color: white;
+    margin: 0;
+    /*display: flex;*/
+}
+
+.header {
+    display:inline-block;
+    font-family:'Exo 2', sans-serif;
+        font-weight:700;
+    font-style:italic;
+    font-size:54px;
+        margin:1vh 0;
+    width:100%;
+    text-align:center
+}
+
+.row {
+    width: 800px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+.photo {
+    height: 400px;
+    width: 400px;
+    outline: solid 3px black;
+    text-align: center;
+    border: solid black;
+}
+
+.img {
+    max-height: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.description {
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+}
+
+.author {
+    text-align: left;
+}
+
+.caption {
+    text-align: left;
+}
