@@ -1,12 +1,8 @@
 import datetime
-import logging
-import sqlite3
+import dataset
 from statistics import mean
 
 from dbextract import extract_user_info, extract_user_medias
-
-logger = logging.getLogger('instagram_downloading')
-logger.setLevel(logging.DEBUG)
 
 def _download_user_medias(api, user_id):
     if api.get_user_feed(user_id):
@@ -62,14 +58,8 @@ def download_user_info(api, user_id):
             user_info_dict["mean_likes"] = mean([m["like_count"] for m in medias if "like_count" in m])
             user_info_dict["mean_comments"] = mean([m["comment_count"] for m in medias if "comment_count" in m])
 
-    conn = sqlite3.connect('phystechtv.db')
-    c = conn.cursor()
-
-    columns = ', '.join(user_info_dict.keys())
-    placeholders = ':' + ', :'.join(user_info_dict.keys())
-    c.execute('REPLACE INTO instagram_users (%s) VALUES (%s)' % (columns, placeholders),
-              user_info_dict)
-    conn.commit()
+    with dataset.connect() as tx:
+        tx["instagram_users"].upsert(user_info_dict, ["user_id"])
     return True
 
 def download_user_medias(api, user_id):
@@ -91,16 +81,9 @@ def download_user_medias(api, user_id):
                 m["image_versions2"]["candidates"][0]["url"] if m["media_type"] == 1 else None,
     } for m in medias]
 
-
-
-    conn = sqlite3.connect('phystechtv.db')
-    c = conn.cursor()
-    columns = ', '.join(media_dicts[0].keys())
-    placeholders = ':' + ', :'.join(media_dicts[0].keys())
-    c.executemany('REPLACE INTO instagram_medias (%s) VALUES (%s)' % (columns, placeholders),
-                  media_dicts)
-
-    conn.commit()
+    with dataset.connect() as db:
+        db["instagram_medias"].delete(author_id=user_id)
+        db["instagram_medias"].insert_many(media_dicts)
     return True
 
 def download_user_followers(api, user_id):
@@ -108,13 +91,10 @@ def download_user_followers(api, user_id):
     if not followers:
         return False
 
-    conn = sqlite3.connect('phystechtv.db')
-    c = conn.cursor()
-    c.execute('''DELETE FROM instagram_followships WHERE followee_id = ?''', (user_id,))
-
-    c.executemany('''INSERT INTO instagram_followships VALUES (?, ?, CURRENT_TIMESTAMP)''',
-                  [(f["pk"], user_id) for f in followers])
-    conn.commit()
+    data = [dict(follower_id=f["pk"], followee_id=user_id) for f in followers]
+    with dataset.connect() as db:
+        db["instagram_followships"].delete(followee_id=user_id)
+        db["instagram_followships"].insert_many(data)
     return True
 
 def download_user_followings(api, user_id):
@@ -122,11 +102,8 @@ def download_user_followings(api, user_id):
     if not followings:
         return False
 
-    conn = sqlite3.connect('phystechtv.db')
-    c = conn.cursor()
-    c.execute('''DELETE FROM instagram_followships WHERE follower_id = ?''', (user_id,))
-
-    c.executemany('''INSERT INTO instagram_followships VALUES (?, ?, CURRENT_TIMESTAMP)''',
-                  [(user_id, f["pk"]) for f in followings])
-    conn.commit()
+    data = [dict(follower_id=user_id, followee_id=f["pk"]) for f in followings]
+    with dataset.connect() as db:
+        db["instagram_followships"].delete(follower_id=user_id)
+        db["instagram_followships"].insert_many(data)
     return True

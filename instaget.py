@@ -69,12 +69,9 @@ def get_user_medias(api, user_id=None, username=None):
     return medias
 
 def make_user_mipt(user_id):
-    conn = sqlite3.connect('phystechtv.db')
-    conn.row_factory = dict_factory
-    c = conn.cursor()
-    c.execute('REPLACE INTO instagram_mipt_users VALUES (?)', (user_id,))
-    conn.commit()
-
+    with dataset.connect() as db:
+        db["instagram_mipt_users"].upsert(dict(user_id=user_id), ["user_id"])
+    return True
 
 
 
