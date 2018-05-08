@@ -75,9 +75,10 @@ def extract_scores():
         scores = list(db.query('''
             SELECT
               likes * comments * likes * comments * mipt_followers_part as score,
-              author_username as username, caption, link
+              author_username as username, likes, comments, mipt_followers_part, caption, link, last_update
             FROM mipt_ratings
             ORDER BY score DESC
         '''))
-
+    for i, score in enumerate(scores):
+        scores[i]["place"] = i + 1
     return scores
