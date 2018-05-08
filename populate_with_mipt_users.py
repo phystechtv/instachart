@@ -8,17 +8,17 @@ SAMPLE_SIZE = 10
 ITERATIONS = 10
 
 apis = get_apis()
-init_db()
+# init_db()
 
 mipt_users = extract_mipt_users_info()
-# if not mipt_users:
-#     # for the first launch
-#     proven_users = ["ohld", "caffeinum", "mipt_physchem", "mipt.ru", "mipt_bm", "mipt_drec", "cheer_delta",
-#                    "belka_fbmf", "alphadance_cheer_mipt", "faki_mipt", "lavash_mipt", "miptculture",
-#                    "mipt_profkom", "kvn_mipt", "spektr_mipt", "miptstream_ru", "__hazerblu", "fiztehradio"]
-#     _ = [get_user_info(next(apis), username=u) for u in proven_users]
-#     mipt_users = [{"user_id": get_user_id(next(apis), username=u)} for u in proven_users]
-#     _ = [make_user_mipt(u["user_id"]) for u in mipt_users]
+if not mipt_users or len(mipt_users) < SAMPLE_SIZE:
+    # for the first launch
+    proven_users = ["ohld", "caffeinum", "mipt_physchem", "mipt.ru", "mipt_bm", "mipt_drec", "cheer_delta",
+                   "belka_fbmf", "alphadance_cheer_mipt", "faki_mipt", "lavash_mipt", "miptculture",
+                   "mipt_profkom", "kvn_mipt", "spektr_mipt", "miptstream_ru", "__hazerblu", "fiztehradio"]
+    _ = [get_user_info(next(apis), username=u) for u in proven_users]
+    mipt_users = [{"user_id": get_user_id(next(apis), username=u)} for u in proven_users]
+    _ = [make_user_mipt(u["user_id"]) for u in mipt_users]
 
 for _ in range(ITERATIONS):
     all_followings = []
