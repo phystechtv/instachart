@@ -82,3 +82,13 @@ def extract_scores():
     for i, score in enumerate(scores):
         scores[i]["place"] = i + 1
     return scores
+
+def extract_users_with_old_media_updates():
+    with dataset.connect() as db:
+        users = list(db.query('''
+            select distinct author_id as user_id, instagram_medias.last_update
+            from instagram_medias
+            where author_id in (select user_id from instagram.instagram_mipt_users)
+            ORDER BY last_update
+        '''))
+    return [u["user_id"] for u in users]
