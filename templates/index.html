@@ -9,22 +9,22 @@
 <body>
     <h1 class="header">phystech.tv/insta</h1>
     <div class="last_update">Последнее обновление в {{last_update}}</div>
-    <div class="container">
+    <div class="last_update">Всего МФТИ-шников в конкурсе: {{total_mipt_users}} (есть посты за последнюю неделю) </div>
+    <div class="column">
         {% for m in medias %}
+            <div class="row">
+                <div class="frame"><span class="helper"></span><img class="img" src="{{m.link}}"></div>
+                <div class="description">
+                    <div class="author"><h2><a href="https://instagram.com/{{m.username}}"> {{m.username}}</a></h2></div>
+                    <div class="place">Место: {{m.place}}</div>
+                    <div class="likes">Лайки: {{'%0.2f' % m.likes | float}}</div>
+                    <div class="likes">Комментарии: {{'%0.2f' % m.comments | float}}</div>
+                    <div class="likes">Доля МФТИ-шных подписок: {{'%0.2f' % m.mipt_followers_part | float}}</div>
+                    <div class="rating">Итоговый рейтинг: {{'%0.2f' % m.score | float}}</div>
+                    <div class="caption">{{m.caption}}</div>
 
-        <div class="row">
-            <div class="photo"><img class="img" src="{{m.link}}"></div>
-            <div class="description">
-                <div class="author"><h2><a href="https://instagram.com/{{m.username}}"> {{m.username}}</a></h2></div>
-                <div class="place">Место: {{m.place}}</div>
-                <div class="likes">Лайки: {{'%0.2f' % m.likes | float}}</div>
-                <div class="likes">Комментарии: {{'%0.2f' % m.comments | float}}</div>
-                <div class="likes">Доля МФТИ-шных подписок: {{'%0.2f' % m.mipt_followers_part | float}}</div>
-                <div class="rating">Итоговый рейтинг: {{'%0.2f' % m.score | float}}</div>
-                <div class="caption">{{m.caption}}</div>
-
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </body>
