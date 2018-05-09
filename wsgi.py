@@ -1,4 +1,4 @@
-from instachart import app
+from instachart import application
 
 if __name__ == "__main__":
-    app.run()
+    application.run()
