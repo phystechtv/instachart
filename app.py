@@ -6,17 +6,9 @@ from dbextract import extract_scores
 @app.route("/")
 def homepage():
     medias = extract_scores()
-    # html = """ """
-    # for m in top_scores:
-    #     html += """<img src="{link}"> """.format(link=m["link"])
-    #     html += """Фото от  <a href="{profile_link}"> {username} </a>""".format(
-    #         profile_link="https://instagram.com/" + m["username"],
-    #         username=m["username"]
-    #     )
-    #     html += """ Рейтинг: {score}""".format(score=m["score"])
-    # return html
-
-    return render_template("index.html", medias=medias[:10])
+    return render_template("index.html", medias=medias[:10],
+                           last_update=min([m["last_update"] for m in medias]),
+                           total_mipt_users=len(set([m["username"] for m in medias])))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, use_reloader=True)
+    app.run(debug=True, use_reloader=True)
