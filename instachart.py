@@ -3,7 +3,7 @@ application = Flask(__name__)
 
 from dbextract import extract_scores
 
-@app.route("/")
+@application.route("/")
 def homepage():
     medias = extract_scores()
     return render_template("index.html", medias=medias[:10],
