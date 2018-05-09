@@ -1,44 +1,57 @@
-.container {
-    outline: solid 3px red;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
 body {
     background: black;
     color: white;
     margin: 0;
-    /*display: flex;*/
 }
 
 .header {
     display:inline-block;
     font-family:'Exo 2', sans-serif;
-        font-weight:700;
+    font-weight:700;
     font-style:italic;
     font-size:54px;
-        margin:1vh 0;
+    margin:3vh 0;
     width:100%;
     text-align:center
 }
 
-.row {
-    width: 800px;
-    height: 400px;
-    display: flex;
+.last_update {
+    font-style:italic;
+    text-align:center;
+    margin:2vh 0;
+}
+
+.column {
+    margin-left: auto;
+    margin-right: auto;
     align-items: center;
 }
 
-.photo {
+.row {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
     height: 400px;
+    display: flex;
+}
+
+.frame {
+    height: 400px;      /* equals max image height */
     width: 400px;
-    outline: solid 3px black;
+    white-space: nowrap; /* this is required unless you put the helper span closely near the img */
     text-align: center;
-    border: solid black;
+    outline: dashed 10px white;
+    outline-offset: -4px;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 .img {
+    vertical-align: middle;
     max-height: 100%;
     max-width: 100%;
     text-align: center;
@@ -48,6 +61,7 @@ body {
     width: 400px;
     height: 400px;
     padding: 20px;
+    top: 20%;
 }
 
 .author {
@@ -56,4 +70,5 @@ body {
 
 .caption {
     text-align: left;
+    font-size: 1vw;
 }
