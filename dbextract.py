@@ -87,8 +87,10 @@ def extract_users_with_old_media_updates():
     with dataset.connect() as db:
         users = list(db.query('''
             select distinct author_id as user_id, instagram_medias.last_update
-            from instagram_medias
+            from instagram_medias 
+            left join instagram_users on instagram_users.user_id = instagram_medias.author_id
             where author_id in (select user_id from instagram.instagram_mipt_users)
+            AND is_private is FALSE 
             ORDER BY last_update
         '''))
     return [u["user_id"] for u in users]
