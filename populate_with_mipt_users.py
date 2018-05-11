@@ -1,5 +1,6 @@
 from random import sample
 from collections import Counter
+from tqdm import trange, tqdm
 
 from utils import *
 from instaget import *
@@ -20,9 +21,9 @@ if not mipt_users or len(mipt_users) < SAMPLE_SIZE:
     mipt_users = [{"user_id": get_user_id(next(apis), username=u)} for u in proven_users]
     _ = [make_user_mipt(u["user_id"]) for u in mipt_users]
 
-for _ in range(ITERATIONS):
+for _ in trange(ITERATIONS):
     all_followings = []
-    for user in sample(mipt_users, SAMPLE_SIZE):
+    for user in tqdm(sample(mipt_users, SAMPLE_SIZE)):
         _ = get_user_info(next(apis), user_id=user["user_id"])
         followings = get_user_followings(next(apis), user_id=user["user_id"])
         if followings:
