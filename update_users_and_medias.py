@@ -5,12 +5,12 @@ from instaget import *
 
 apis = get_apis()
 
-mipt_users = extract_mipt_users_info()
+mipt_user_ids = extract_users_with_old_media_updates()
 
-random.shuffle(mipt_users)
-for user_info in tqdm(mipt_users):
-    if not download_user_info(next(apis), user_id=user_info["user_id"]):
+for user_id in tqdm(mipt_user_ids):
+    if not download_user_medias(next(apis), user_id=user_id):
         sleep(120)
-    if not download_user_medias(next(apis), user_id=user_info["user_id"]):
+    sleep(60)
+    if not download_user_info(next(apis), user_id=user_id):
         sleep(120)
     sleep(60)
