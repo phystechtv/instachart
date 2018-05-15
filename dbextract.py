@@ -80,6 +80,9 @@ def extract_scores():
             ORDER BY score DESC
         '''))
     for i, score in enumerate(scores):
+        for float_column in ["likes", "comments", "score", "mipt_followers_part"]:
+            scores[i][float_column] = float(scores[i][float_column])
+        scores[i]["last_update"] = str(scores[i]["last_update"])
         scores[i]["place"] = i + 1
     return scores
 

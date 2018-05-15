@@ -1,5 +1,7 @@
 from flask import Flask, render_template, jsonify
+import simplejson as json
 application = Flask(__name__)
+application.config['JSON_AS_ASCII'] = False
 
 from dbextract import extract_scores
 
@@ -13,7 +15,7 @@ def homepage():
 @application.route("/medias")
 def media_data():
     medias = extract_scores()
-    return jsonify(medias[:10])
+    return json.dumps(medias[:10], ensure_ascii=False)
 
 if __name__ == '__main__':
     application.run(host="0.0.0.0", debug=True, use_reloader=True)
