@@ -54,6 +54,14 @@ def init_db():
               user_id VARCHAR(15)
             );
         ''')
+        db.query('''
+            CREATE TABLE IF NOT EXISTS instagram_posted_medias (
+              original_media_id VARCHAR(20) NOT NULL,
+              original_author_id VARCHAR(15) NOT NULL,
+              caption TEXT,
+              posted_at TIMESTAMP default CURRENT_TIMESTAMP
+            );
+        ''')
 
 # instagram api and credentials
 
@@ -74,7 +82,7 @@ def get_api(username, password):
 
 def get_main_api():
     db = dataset.connect()
-    main_accounts = db["instagram_credentials"].find(is_main_account=True)
+    main_accounts = list(db["instagram_credentials"].find(is_main_account=True))
     if len(main_accounts) == 0:
         return None
     if len(main_accounts) > 0:

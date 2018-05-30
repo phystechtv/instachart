@@ -24,7 +24,6 @@ def extract_user_info(user_id=None, username=None):
 
     return result[0]
 
-
 def extract_user_followers(user_id):
     with dataset.connect() as db:
         followers = list(db["instagram_followships"].find(followee_id=user_id))
@@ -47,6 +46,22 @@ def extract_user_followings(user_id):
 def extract_user_medias(user_id):
     with dataset.connect() as db:
         medias = list(db["instagram_medias"].find(author_id=user_id))
+    if len(medias) == 0:
+        return False
+
+    return medias
+
+def extract_media_info(media_id):
+    with dataset.connect() as db:
+        media = list(db["instagram_medias"].find(media_id=media_id))
+    if len(media) == 0:
+        return False
+
+    return media[0]
+
+def extract_posted_medias():
+    with dataset.connect() as db:
+        medias = list(db["instagram_posted_medias"])
     if len(medias) == 0:
         return False
 
@@ -75,7 +90,7 @@ def extract_scores():
         scores = list(db.query('''
             SELECT
               likes * comments * likes * comments * mipt_followers_part as score,
-              author_username as username, likes, comments, mipt_followers_part, caption, link, last_update
+              author_username as username, likes, comments, mipt_followers_part, caption, link, last_update, media_id
             FROM mipt_ratings
             ORDER BY score DESC
         '''))

@@ -73,5 +73,12 @@ def make_user_mipt(user_id):
         db["instagram_mipt_users"].upsert(dict(user_id=user_id), ["user_id"])
     return True
 
+def make_media_downloaded(media_id, caption, author_id):
+    with dataset.connect() as db:
+        db["instagram_posted_medias"].insert(dict(original_media_id=media_id,
+                                                  caption=caption,
+                                                  original_author_id=author_id))
+    return True
+
 
 
