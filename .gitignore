@@ -103,4 +103,5 @@ ENV/
 *.iml
 *.txt
 *.db
-.DS_Store
+**.DS_Store
+**.jpg
