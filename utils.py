@@ -36,7 +36,7 @@ def init_db():
               caption TEXT,
               like_count INT,
               comment_count INT, 
-              taken_at datetime,          
+              taken_at TIMESTAMP,          
               media_type INT, 
               lat FLOAT, lng FLOAT,
               link TEXT,

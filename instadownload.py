@@ -37,7 +37,7 @@ def download_user_info(api, user_id):
     user_info = api.last_json["user"]
     user_info_dict = {
         "username": user_info["username"],
-        "user_id": user_info["pk"],
+        "user_id": str(user_info["pk"]),
         "fullname": user_info["full_name"],
         "biography": user_info["biography"],
         "follower_count": user_info["follower_count"],
@@ -82,7 +82,7 @@ def download_user_medias(api, user_id):
     } for m in medias]
 
     with dataset.connect() as db:
-        db["instagram_medias"].delete(author_id=user_id)
+        db["instagram_medias"].delete(author_id=str(user_id))
         db["instagram_medias"].insert_many(media_dicts)
     return True
 
@@ -93,7 +93,7 @@ def download_user_followers(api, user_id):
 
     data = [dict(follower_id=f["pk"], followee_id=user_id) for f in followers]
     with dataset.connect() as db:
-        db["instagram_followships"].delete(followee_id=user_id)
+        db["instagram_followships"].delete(followee_id=str(user_id))
         db["instagram_followships"].insert_many(data)
     return True
 
@@ -104,6 +104,6 @@ def download_user_followings(api, user_id):
 
     data = [dict(follower_id=user_id, followee_id=f["pk"]) for f in followings]
     with dataset.connect() as db:
-        db["instagram_followships"].delete(follower_id=user_id)
+        db["instagram_followships"].delete(follower_id=str(user_id))
         db["instagram_followships"].insert_many(data)
     return True

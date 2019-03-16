@@ -5,7 +5,7 @@ from tqdm import trange, tqdm
 from utils import *
 from instaget import *
 
-SAMPLE_SIZE = 10
+SAMPLE_SIZE = 6
 ITERATIONS = 10
 
 apis = get_apis()
@@ -22,19 +22,21 @@ if not mipt_users or len(mipt_users) < SAMPLE_SIZE:
     _ = [make_user_mipt(u["user_id"]) for u in mipt_users]
 
 for _ in trange(ITERATIONS):
-    all_followings = []
-    for user in tqdm(sample(mipt_users, SAMPLE_SIZE)):
-        _ = get_user_info(next(apis), user_id=user["user_id"])
-        followings = get_user_followings(next(apis), user_id=user["user_id"])
-        if followings:
-            all_followings.extend(followings)
-        sleep(5)
+    try:
+        all_followings = []
+        for user in tqdm(sample(mipt_users, SAMPLE_SIZE)):
+            _ = get_user_info(next(apis), user_id=user["user_id"])
+            followings = get_user_followings(next(apis), user_id=user["user_id"])
+            if followings:
+                all_followings.extend(followings)
+            sleep(5)
 
-    mipt_users_ids = set([u["user_id"] for u in mipt_users])
-    value_counts = Counter([uid for uid in all_followings if uid not in mipt_users_ids])
-    for user_id, count in value_counts.items():
-        if count >= SAMPLE_SIZE / 2:
-            _ = get_user_info(next(apis), user_id=user_id)
-            _ = make_user_mipt(user_id)
-
-    sleep(60 * 5)
+        mipt_users_ids = set([u["user_id"] for u in mipt_users])
+        value_counts = Counter([uid for uid in all_followings if uid not in mipt_users_ids])
+        for user_id, count in value_counts.items():
+            if count >= SAMPLE_SIZE / 2:
+                _ = get_user_info(next(apis), user_id=user_id)
+                _ = make_user_mipt(user_id)
+                sleep(2)
+    finally:
+        sleep(30)

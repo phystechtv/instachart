@@ -70,7 +70,7 @@ def extract_posted_medias():
 def extract_mipt_users_info():
     with dataset.connect() as db:
         users = list(db.query('''SELECT * FROM instagram_mipt_users INNER JOIN instagram_users
-               ON instagram_users.user_id = instagram_mipt_users.user_id WHERE is_private = 0'''))
+               ON instagram_users.user_id = instagram_mipt_users.user_id WHERE is_private = False'''))
 
     if len(users) == 0:
         return False
